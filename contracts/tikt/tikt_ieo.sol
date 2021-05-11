@@ -551,7 +551,7 @@ contract TiktInitialOffering is Ownable {
         require(START <= block.timestamp, "The offering has not started yet");
         require(block.timestamp <= END, "The offering has already ended");
         require(totalProvided + msg.value <= MAXIMAL_PROVIDE_AMOUNT, "Max total amount is 50000 HT ");
-        require(provided[msg.sender] + msg.value <= MAX_PER_USER, "Max user amount is 2000 HT ");
+        require(provided[msg.sender] + msg.value <= MAX_PER_USER, "Max user amount is 1000 HT ");
         totalProvided += msg.value;
         provided[msg.sender] += msg.value;
         emit Received(msg.sender, msg.value);

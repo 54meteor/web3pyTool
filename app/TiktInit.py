@@ -19,7 +19,11 @@ def main(argv):
     tikt = TiktInital("TiktInitialOffering","./tikt/tikt_ieo.sol",cfg,"0.6.12")
     tikt.deploy_contract_t(cts.contractAddr)
     tikt.initAccounts()
+
     tikt.testInit(cts)
+
+
+
     # tstMin(tikt,cts)
     tstMin_Max(tikt,cts)
     # tstWithdraw(tikt,cts)

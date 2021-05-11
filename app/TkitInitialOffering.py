@@ -10,25 +10,25 @@ class TiktInital(Contracts):
         amount = 250000000 * self.DECIMAL
         cts.function.transfer(self.contractAddr,amount).transact()
         balance = cts.function.balanceOf(self.contractAddr).call()
-        self.printO(self.contractAddr + " iso Balance has : " + str(balance) + "SWF")
+        self.printO(self.contractAddr + " iso Balance has : " + str(balance / self.DECIMAL) + " TIKT")
 
 
     def testRW(self,amount,sender):
         self.printN(sender + " buy ")
         self.function.buy().transact({'from':sender,'value': amount * self.DECIMAL})
         balance = self.function.provided(sender).call()
-        self.printO(sender + " iso buy Balance has : " + str(balance) + "HT")
+        self.printO(sender + " iso buy Balance has : " + str(balance / self.DECIMAL) + " HT")
         eBalance = self.w3.eth.getBalance(self.contractAddr)
-        self.printO(self.contractAddr + " iso contract HT Balance has : " + str(eBalance) + "HT")
+        self.printO(self.contractAddr + " iso contract HT Balance has : " + str(eBalance / self.DECIMAL) + " HT")
 
 
     def testClaim(self,cts,sender):
         self.printN(sender + " claim " )
         self.function.claim().transact({'from':sender})
         balance = cts.function.balanceOf(sender).call()
-        self.printO(sender + " token Balance has : " + str(balance) + "swf")
+        self.printO(sender + " token Balance has : " + str(balance) + " tikt")
         balance1 = self.function.provided(sender).call()
-        self.printO(sender + " iso Balance has : " + str(balance1) + "HT")
+        self.printO(sender + " iso Balance has : " + str(balance1) + " HT")
 
 
     def testWithdrawProvidedHT(self):
@@ -43,7 +43,7 @@ class TiktInital(Contracts):
         self.printO(self.contractAddr + " Balance has : " + str(balance))
         balance = cts.function.balanceOf(self.getDefaultAccount()).call()
         self.printO(self.contractAddr + " Balance has : " + str(balance))
-        self.function.withdrawUnclaimedSWF().transact()
+        self.function.withdrawUnclaimedToken().transact()
         balance = cts.function.balanceOf(self.contractAddr).call()
         self.printO(self.contractAddr + " Balance has : " + str(balance))
         balance = cts.function.balanceOf(self.getDefaultAccount()).call()
