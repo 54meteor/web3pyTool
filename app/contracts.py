@@ -37,25 +37,20 @@ class Contracts():
         solcx.install_solc(self.version)
         # self.initAccounts()
 
-
     def initAccounts(self):
         self.accountList = self.w3.eth.accounts
         self.w3.eth.defaultAccount = self.accountList[0]
 
-
     def setDefaultAccount(self,account):
         self.w3.eth.defaultAccount = account
 
-
     def getDefaultAccount(self):
         return self.w3.eth.defaultAccount
-
 
     def readContract(self):
         with open(self.CONTRACTS_PATH + self.contractFileName,'r') as fp:
             content = fp.read()
             return  content
-
 
     def compile_source_file(self):
         self.printN("Compiling Contract... " + self.contractFileName)
@@ -66,10 +61,8 @@ class Contracts():
             optimize = True
         )
 
-
     def getContract(self):
         return self.compile_source_file().get(self.prefix + self.contractName)
-
 
     def compile_source_file1(self,f):
         self.printN("Compiling Contract... " + self.contractFileName)
@@ -107,21 +100,31 @@ class Contracts():
         self.printN("Deployed Contract end... Address:" + self.contractAddr)
         self.initContract()
 
-
     def initContract(self):
         self.printN("Mission Compeleted ")
         checksum_address = self.w3.toChecksumAddress(self.contractAddr)
         self.contract = self.w3.eth.contract(address=checksum_address, abi=self.abi)
         self.function = self.contract.functions
 
+    def transact(self,obj,account):
+        try:
+            return obj.transact({"from":account})
+        except ValueError as e:
+            self.printE("error catched : " + e.args[0])
+            return
+
+    def call(self,obj):
+        try:
+            return obj.call()
+        except ValueError as e:
+            self.printE("error catched : " + e.args[0])
+            return
 
     def printRed(self,str):
         print("\033[31m" + str +  "\033[0m")
 
-
     def textG(self,str):
         return "\033[32m" + str +  "\033[0m"
-
 
     def textR(self,str):
         return "\033[31m" + str + "\033[0m"
@@ -129,18 +132,14 @@ class Contracts():
     def printN(self,str):
         print(self.NOTICE + str)
 
-
     def printW(self,str):
         print(self.WARNING + str)
-
 
     def printE(self,str):
         print(self.ERROR + str)
 
-
     def printO(self,str):
         print(self.OPERATING + str)
-
 
     def printS(self,str):
         print(self.SUCCESS + str)
